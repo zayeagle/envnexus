@@ -52,6 +52,8 @@ export default function MarketplacePublishPage() {
   const [error, setError] = useState<string | null>(null);
 
   const isPlugin = type === "plugin";
+  const isArchiveType = type === "skill" || type === "rule";
+  const isJsonType = type === "mcp" || type === "subagent";
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -66,6 +68,10 @@ export default function MarketplacePublishPage() {
       if (!file) return t.needPluginFile;
       const n = file.name.toLowerCase();
       if (!n.endsWith(".vsix")) return t.needPluginFile;
+    } else if (isArchiveType) {
+      if (!file) return t.needArchiveFile;
+      const n = file.name.toLowerCase();
+      if (!n.endsWith(".zip")) return t.needArchiveFile;
     } else {
       if (file) {
         return null;
@@ -76,7 +82,7 @@ export default function MarketplacePublishPage() {
       }
     }
     return null;
-  }, [name, version, isPlugin, file, payload, t, ct.error]);
+  }, [name, version, isPlugin, isArchiveType, file, payload, t, ct.error]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,9 +101,9 @@ export default function MarketplacePublishPage() {
     fd.append("description", description.trim());
     fd.append("author", author.trim());
     fd.append("status", "published");
-    if (isPlugin && file) {
+    if ((isPlugin || isArchiveType) && file) {
       fd.append("file", file, file.name);
-    } else if (!isPlugin) {
+    } else if (isJsonType) {
       if (file) {
         fd.append("file", file, file.name);
       } else {
@@ -254,6 +260,20 @@ export default function MarketplacePublishPage() {
               id="mp-file-plugin"
               type="file"
               accept=".vsix,application/vsix+zip"
+              onChange={onFileChange}
+              className="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-800"
+            />
+          </div>
+        ) : isArchiveType ? (
+          <div>
+            <label htmlFor="mp-file-archive" className="block text-sm font-medium text-slate-700">
+              {t.fileLabel}
+            </label>
+            <p className="mt-0.5 text-xs text-slate-500">{t.archiveZipOnly}</p>
+            <input
+              id="mp-file-archive"
+              type="file"
+              accept=".zip,application/zip"
               onChange={onFileChange}
               className="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-800"
             />

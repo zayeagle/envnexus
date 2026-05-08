@@ -1,6 +1,10 @@
 import * as vscode from "vscode";
+import { inflateRaw } from "zlib";
+import { promisify } from "util";
 import fetch from "node-fetch";
 import { getApiBase, getValidAccessToken } from "./auth";
+
+const inflateRawAsync = promisify(inflateRaw);
 
 type ApiSuccess<T> = { data: T; error: null; request_id?: string };
 type ApiErrorBody = { data: null; error: { code: string; message: string }; request_id?: string };
@@ -18,6 +22,79 @@ interface ManifestItem {
   type: string;
   name: string;
   payload: string;
+}
+
+interface ZipEntry {
+  fileName: string;
+  data: Uint8Array;
+}
+
+/**
+ * Parses a zip buffer using the Central Directory and extracts all file entries.
+ * Supports Store (method 0) and Deflate (method 8) only, which covers all
+ * standard zip files produced by common tools.
+ */
+async function extractZipEntries(buf: Buffer): Promise<ZipEntry[]> {
+  const eocdSig = 0x06054b50;
+  let eocdOffset = -1;
+  for (let i = buf.length - 22; i >= 0 && i >= buf.length - 65535 - 22; i--) {
+    if (buf.readUInt32LE(i) === eocdSig) {
+      eocdOffset = i;
+      break;
+    }
+  }
+  if (eocdOffset < 0) {
+    throw new Error("Invalid zip: EOCD not found");
+  }
+
+  const cdOffset = buf.readUInt32LE(eocdOffset + 16);
+  const cdEntries = buf.readUInt16LE(eocdOffset + 10);
+  const entries: ZipEntry[] = [];
+  let pos = cdOffset;
+  const cdSig = 0x02014b50;
+
+  for (let i = 0; i < cdEntries; i++) {
+    if (buf.readUInt32LE(pos) !== cdSig) {
+      throw new Error("Invalid zip: bad central directory entry");
+    }
+    const method = buf.readUInt16LE(pos + 10);
+    const compSize = buf.readUInt32LE(pos + 20);
+    const uncompSize = buf.readUInt32LE(pos + 24);
+    const nameLen = buf.readUInt16LE(pos + 28);
+    const extraLen = buf.readUInt16LE(pos + 30);
+    const commentLen = buf.readUInt16LE(pos + 32);
+    const localHeaderOffset = buf.readUInt32LE(pos + 42);
+    const fileName = buf.toString("utf8", pos + 46, pos + 46 + nameLen);
+    pos += 46 + nameLen + extraLen + commentLen;
+
+    if (fileName.endsWith("/")) {
+      continue;
+    }
+
+    const localSig = 0x04034b50;
+    if (buf.readUInt32LE(localHeaderOffset) !== localSig) {
+      throw new Error(`Invalid zip: bad local header for ${fileName}`);
+    }
+    const localNameLen = buf.readUInt16LE(localHeaderOffset + 26);
+    const localExtraLen = buf.readUInt16LE(localHeaderOffset + 28);
+    const dataStart = localHeaderOffset + 30 + localNameLen + localExtraLen;
+    const compressedData = buf.subarray(dataStart, dataStart + compSize);
+
+    let data: Uint8Array;
+    if (method === 0) {
+      data = new Uint8Array(compressedData);
+    } else if (method === 8) {
+      data = await inflateRawAsync(compressedData);
+    } else {
+      throw new Error(`Unsupported zip compression method ${method} for ${fileName}`);
+    }
+
+    if (data.length !== uncompSize && method !== 0) {
+      throw new Error(`Size mismatch for ${fileName}: expected ${uncompSize}, got ${data.length}`);
+    }
+    entries.push({ fileName, data });
+  }
+  return entries;
 }
 
 const ENC = new TextEncoder();
@@ -92,19 +169,63 @@ async function applyMcpItem(folder: vscode.Uri, item: ManifestItem): Promise<voi
   await vscode.workspace.fs.writeFile(mcpPath, ENC.encode(`${JSON.stringify(merged, null, 2)}\n`));
 }
 
+function parseObjectPayload(payload: string): { object_key?: string; download_url?: string } {
+  try {
+    return JSON.parse(payload) as { object_key?: string; download_url?: string };
+  } catch {
+    return {};
+  }
+}
+
+async function downloadZipBuffer(url: string): Promise<Buffer> {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Download failed (${res.status}): ${url}`);
+  }
+  return Buffer.from(await res.arrayBuffer());
+}
+
+async function extractZipToDir(zipBuf: Buffer, targetDir: vscode.Uri): Promise<void> {
+  const entries = await extractZipEntries(zipBuf);
+  for (const entry of entries) {
+    const parts = entry.fileName.split("/").filter(Boolean);
+    if (parts.length === 0) { continue; }
+    if (parts.length > 1) {
+      await ensureDirPath(targetDir, parts.slice(0, -1));
+    }
+    const fileUri = vscode.Uri.joinPath(targetDir, ...parts);
+    await vscode.workspace.fs.writeFile(fileUri, entry.data);
+  }
+}
+
 async function applySkillItem(folder: vscode.Uri, item: ManifestItem): Promise<void> {
-  const base = sanitizePathSegment(item.name);
-  const dir = await ensureDirPath(folder, [".cursor", "skills", base]);
-  const file = vscode.Uri.joinPath(dir, "SKILL.md");
-  await vscode.workspace.fs.writeFile(file, ENC.encode(item.payload));
+  const p = parseObjectPayload(item.payload);
+  if (p.download_url) {
+    const base = sanitizePathSegment(item.name);
+    const dir = await ensureDirPath(folder, [".cursor", "skills", base]);
+    const zipBuf = await downloadZipBuffer(p.download_url);
+    await extractZipToDir(zipBuf, dir);
+  } else {
+    const base = sanitizePathSegment(item.name);
+    const dir = await ensureDirPath(folder, [".cursor", "skills", base]);
+    const file = vscode.Uri.joinPath(dir, "SKILL.md");
+    await vscode.workspace.fs.writeFile(file, ENC.encode(item.payload));
+  }
 }
 
 async function applyRuleItem(folder: vscode.Uri, item: ManifestItem): Promise<void> {
-  const base = sanitizePathSegment(item.name);
-  const nameWithExt = base.toLowerCase().endsWith(".mdc") ? base : `${base}.mdc`;
-  await ensureDirPath(folder, [".cursor", "rules"]);
-  const file = vscode.Uri.joinPath(folder, ".cursor", "rules", nameWithExt);
-  await vscode.workspace.fs.writeFile(file, ENC.encode(item.payload));
+  const p = parseObjectPayload(item.payload);
+  if (p.download_url) {
+    const dir = await ensureDirPath(folder, [".cursor", "rules"]);
+    const zipBuf = await downloadZipBuffer(p.download_url);
+    await extractZipToDir(zipBuf, dir);
+  } else {
+    const base = sanitizePathSegment(item.name);
+    const nameWithExt = base.toLowerCase().endsWith(".mdc") ? base : `${base}.mdc`;
+    await ensureDirPath(folder, [".cursor", "rules"]);
+    const file = vscode.Uri.joinPath(folder, ".cursor", "rules", nameWithExt);
+    await vscode.workspace.fs.writeFile(file, ENC.encode(item.payload));
+  }
 }
 
 async function fetchIdeSyncManifest(accessToken: string): Promise<{ items: ManifestItem[] }> {

@@ -219,7 +219,8 @@ export default function MarketplacePage() {
     setError(null);
     const safeName = item.name.replace(/[^a-zA-Z0-9._-]+/g, "_");
     const safeVersion = (item.version || "latest").replace(/[^a-zA-Z0-9._-]+/g, "_");
-    const safe = `${safeName}-${safeVersion}.vsix`;
+    const ext = item.type === "plugin" ? "vsix" : "zip";
+    const safe = `${safeName}-${safeVersion}.${ext}`;
     try {
       await downloadMarketplacePlugin(tenantId, item.id, safe);
     } catch (e) {
@@ -292,7 +293,7 @@ export default function MarketplacePage() {
               <tbody>
                 {items.map((item) => {
                   const isSub = subscribedActive.has(item.id);
-                  const isPlugin = item.type === "plugin";
+                  const hasDownload = item.type === "plugin" || item.type === "skill" || item.type === "rule";
                   return (
                     <tr key={item.id} className="border-b border-slate-50 last:border-0">
                       <td className="px-4 py-3">
@@ -328,7 +329,7 @@ export default function MarketplacePage() {
                           >
                             {actionId === item.id ? ct.loading : isSub ? t.unsubscribe : t.subscribe}
                           </button>
-                          {isPlugin && (
+                          {hasDownload && (
                             <button
                               type="button"
                               disabled={!isSub || downloadingId === item.id}

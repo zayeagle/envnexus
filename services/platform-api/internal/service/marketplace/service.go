@@ -348,6 +348,17 @@ func readValidateJSONPayload(r io.Reader, size int64) (string, error) {
 	return string(b), nil
 }
 
+// itemTypeUsesObjectStorage returns true for types whose artifacts are stored
+// in MinIO as binary files (zip/vsix) rather than inline JSON payloads.
+func itemTypeUsesObjectStorage(t domain.MarketplaceItemType) bool {
+	switch t {
+	case domain.MarketplaceItemTypePlugin, domain.MarketplaceItemTypeSkill, domain.MarketplaceItemTypeRule:
+		return true
+	default:
+		return false
+	}
+}
+
 // CreateMarketplaceItem stores a new item. Plugin types require a file and MinIO; other types use a file or a raw JSON "payload" string.
 func (s *Service) CreateMarketplaceItem(ctx context.Context, in CreateMarketplaceItemInput) (*dto.MarketplaceItemResponse, error) {
 	name := strings.TrimSpace(in.Name)
@@ -368,8 +379,7 @@ func (s *Service) CreateMarketplaceItem(ctx context.Context, in CreateMarketplac
 	now := time.Now()
 	id := ulid.Make().String()
 	var payload string
-	switch in.Type {
-	case domain.MarketplaceItemTypePlugin:
+	if itemTypeUsesObjectStorage(in.Type) {
 		if in.File == nil || in.FileSize <= 0 {
 			return nil, domain.ErrInvalidRequest
 		}
@@ -389,7 +399,7 @@ func (s *Service) CreateMarketplaceItem(ctx context.Context, in CreateMarketplac
 			return nil, err
 		}
 		payload = p
-	default:
+	} else {
 		if in.File != nil && in.FileSize > 0 {
 			p, err := readValidateJSONPayload(in.File, in.FileSize)
 			if err != nil {
@@ -457,8 +467,7 @@ func (s *Service) UpdateMarketplaceItem(ctx context.Context, id string, in Updat
 		item.Status = st
 	}
 	if in.FileSize > 0 && in.File != nil {
-		switch item.Type {
-		case domain.MarketplaceItemTypePlugin:
+		if itemTypeUsesObjectStorage(item.Type) {
 			if s.minioClient == nil {
 				return nil, domain.ErrObjectStorageUnavailable
 			}
@@ -478,7 +487,7 @@ func (s *Service) UpdateMarketplaceItem(ctx context.Context, id string, in Updat
 				return nil, err
 			}
 			item.Payload = p
-		default:
+		} else {
 			p, err := readValidateJSONPayload(in.File, in.FileSize)
 			if err != nil {
 				return nil, err
@@ -486,7 +495,7 @@ func (s *Service) UpdateMarketplaceItem(ctx context.Context, id string, in Updat
 			item.Payload = p
 		}
 	} else if strings.TrimSpace(in.PayloadJSON) != "" {
-		if item.Type == domain.MarketplaceItemTypePlugin {
+		if itemTypeUsesObjectStorage(item.Type) {
 			return nil, domain.ErrInvalidRequest
 		}
 		if !json.Valid([]byte(in.PayloadJSON)) {
@@ -510,7 +519,7 @@ func (s *Service) DeleteMarketplaceItem(ctx context.Context, id string) error {
 		}
 		return err
 	}
-	if item.Type == domain.MarketplaceItemTypePlugin && s.minioClient != nil {
+	if itemTypeUsesObjectStorage(item.Type) && s.minioClient != nil {
 		if k := extractObjectKey(item.Payload); k != "" {
 			_ = s.minioClient.RemoveObject(ctx, k)
 		}
