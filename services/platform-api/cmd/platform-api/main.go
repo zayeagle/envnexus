@@ -23,6 +23,7 @@ import (
 	"github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
 	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
 	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/agent_profile"
+	api_token_svc "github.com/zy-eagle/envnexus/services/platform-api/internal/service/api_token"
 	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/audit"
 	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/auth"
 	command_svc "github.com/zy-eagle/envnexus/services/platform-api/internal/service/command"
@@ -245,9 +246,11 @@ func main() {
 
 	var deviceAuthService *device_auth.Service
 	var marketplaceService *marketplace.Service
+	var apiTokenService *api_token_svc.Service
 	if gormDB != nil {
 		deviceAuthService = device_auth.NewService(repository.NewMySQLDeviceAuthRepository(gormDB))
 		marketplaceService = marketplace.NewService(repository.NewMySQLMarketplaceRepository(gormDB), minioClient)
+		apiTokenService = api_token_svc.NewService(repository.NewMySQLApiTokenRepository(gormDB))
 	}
 
 	if marketplaceService != nil {
@@ -313,8 +316,12 @@ func main() {
 	var deviceAuthHandler *httphandler.DeviceAuthHandler
 	var marketplaceHandler *httphandler.MarketplaceHandler
 	var ideSyncHandler *httphandler.IdeSyncHandler
+	var apiTokenHandler *httphandler.ApiTokenHandler
 	if deviceAuthService != nil {
 		deviceAuthHandler = httphandler.NewDeviceAuthHandler(deviceAuthService)
+	}
+	if apiTokenService != nil {
+		apiTokenHandler = httphandler.NewApiTokenHandler(apiTokenService)
 	}
 	if marketplaceService != nil {
 		marketplaceHandler = httphandler.NewMarketplaceHandler(marketplaceService)
@@ -404,9 +411,9 @@ func main() {
 		deviceAuthHandler.RegisterPublicRoutes(da)
 	}
 
-	// Protected console API
+	// Protected console API (accepts both JWT and API tokens with "enx_" prefix)
 	protectedV1 := router.Group("/api/v1")
-	protectedV1.Use(middleware.JWTAuth(jwtSecret))
+	protectedV1.Use(middleware.JWTOrApiTokenAuth(jwtSecret, apiTokenService))
 	{
 		protectedV1.GET("/me", func(c *gin.Context) { authHandler.Me(c) })
 		protectedV1.PUT("/me/password", func(c *gin.Context) { authHandler.ChangePassword(c) })
@@ -441,6 +448,9 @@ func main() {
 		}
 		if marketplaceHandler != nil {
 			marketplaceHandler.RegisterRoutes(protectedV1)
+		}
+		if apiTokenHandler != nil {
+			apiTokenHandler.RegisterRoutes(protectedV1)
 		}
 	}
 

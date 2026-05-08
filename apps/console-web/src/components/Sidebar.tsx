@@ -145,6 +145,7 @@ export default function Sidebar() {
           { href: `/tenants/${tid}/download-packages`, icon: 'download', label: t.downloadPackages },
           { href: `/tenants/${tid}/marketplace`, icon: 'model', label: t.marketplace },
           { href: `/tenants/${tid}/developer-settings`, icon: 'code', label: t.developerSettings },
+          { href: `/tenants/${tid}/api-tokens`, icon: 'roles', label: t.apiTokens },
         ],
       },
       {

@@ -70,6 +70,10 @@ var (
 	ErrIdeClientTokenNotFound  = NewAppError("ide_client_token_not_found", "IDE client token not found or invalid", http.StatusUnauthorized)
 	ErrIdeClientTokenExpired   = NewAppError("ide_client_token_expired", "IDE client refresh token has expired", http.StatusUnauthorized)
 
+	ErrApiTokenNotFound  = NewAppError("api_token_not_found", "API token not found or invalid", http.StatusUnauthorized)
+	ErrApiTokenRevoked   = NewAppError("api_token_revoked", "API token has been revoked", http.StatusUnauthorized)
+	ErrApiTokenExpired   = NewAppError("api_token_expired", "API token has expired", http.StatusUnauthorized)
+
 	ErrMarketplaceItemNotFound       = NewAppError("marketplace_item_not_found", "marketplace item not found", http.StatusNotFound)
 	ErrMarketplaceItemNotPublished   = NewAppError("marketplace_item_not_published", "marketplace item is not published", http.StatusBadRequest)
 	ErrMarketplaceAlreadySubscribed  = NewAppError("marketplace_already_subscribed", "tenant is already subscribed to this item", http.StatusConflict)
