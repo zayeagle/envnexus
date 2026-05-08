@@ -109,14 +109,32 @@ export default function ApiTokensPage() {
     }
   };
 
-  const handleCopy = async (token: string) => {
+  const handleCopy = (token: string) => {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(token).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }).catch(() => fallbackCopy(token));
+    } else {
+      fallbackCopy(token);
+    }
+  };
+
+  const fallbackCopy = (text: string) => {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
     try {
-      await navigator.clipboard.writeText(token);
+      document.execCommand("copy");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback: select + copy
+      // last resort: user must manually copy from the select-all code block
     }
+    document.body.removeChild(textarea);
   };
 
   const confirmRevoke = async () => {
