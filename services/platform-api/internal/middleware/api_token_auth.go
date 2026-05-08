@@ -13,7 +13,8 @@ const (
 	ContextApiTokenID     = "api_token_id"
 	ContextApiTokenScopes = "api_token_scopes"
 
-	ScopeReadOnly = "read-only"
+	ScopeReadOnly  = "read-only"
+	ScopeReadWrite = "read-write"
 )
 
 // applyApiToken sets principal context and enforces scope constraints.
@@ -22,8 +23,11 @@ func applyApiToken(c *gin.Context, pr *api_token.ApiTokenPrincipal) {
 	c.Set(ContextApiTokenScopes, pr.Scopes)
 	c.Set("user_id", pr.UserID)
 	c.Set("tenant_id", pr.TenantID)
+	if pr.IsSuperAdmin {
+		c.Set("platform_super_admin", true)
+	}
 
-	if hasScope(pr.Scopes, ScopeReadOnly) && !isReadOnlyMethod(c.Request.Method) {
+	if hasScope(pr.Scopes, ScopeReadOnly) && !hasScope(pr.Scopes, ScopeReadWrite) && !isReadOnlyMethod(c.Request.Method) {
 		RespondErrorCode(c, http.StatusForbidden, "scope_violation",
 			"this API token has read-only scope and cannot perform write operations")
 		c.Abort()

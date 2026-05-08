@@ -5,12 +5,14 @@ import { useParams } from "next/navigation";
 import { api, APIError } from "@/lib/api/client";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useDict } from "@/lib/i18n/dictionary";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 interface ApiTokenRow {
   id: string;
   name: string;
   token_prefix: string;
   scopes: string[] | null;
+  is_super_admin: boolean;
   expires_at: string | null;
   last_used_at: string | null;
   revoked_at: string | null;
@@ -23,6 +25,7 @@ interface CreatedToken {
   token: string;
   token_prefix: string;
   scopes: string[];
+  is_super_admin: boolean;
   expires_at: string | null;
   created_at: string;
 }
@@ -38,8 +41,11 @@ export default function ApiTokensPage() {
   const params = useParams<{ tenantId: string }>();
   const tenantId = params?.tenantId;
   const { lang } = useLanguage();
+  const { user } = useAuth();
   const t = useDict("apiTokens", lang);
   const ct = useDict("common", lang);
+
+  const isSuperAdmin = !!user?.platform_super_admin;
 
   const [rows, setRows] = useState<ApiTokenRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +54,8 @@ export default function ApiTokensPage() {
   // create modal
   const [showCreate, setShowCreate] = useState(false);
   const [createName, setCreateName] = useState("");
+  const [createScope, setCreateScope] = useState<"read-only" | "read-write">("read-only");
+  const [createSuperAdmin, setCreateSuperAdmin] = useState(false);
   const [createExpiry, setCreateExpiry] = useState(0);
   const [creating, setCreating] = useState(false);
 
@@ -89,7 +97,11 @@ export default function ApiTokensPage() {
     setCreating(true);
     setError(null);
     try {
-      const body: Record<string, unknown> = { name: createName.trim() };
+      const body: Record<string, unknown> = {
+        name: createName.trim(),
+        scopes: [createScope],
+        is_super_admin: createSuperAdmin,
+      };
       if (createExpiry > 0) {
         body.expires_in = createExpiry;
       }
@@ -100,6 +112,8 @@ export default function ApiTokensPage() {
       setCreatedToken(data);
       setShowCreate(false);
       setCreateName("");
+      setCreateScope("read-only");
+      setCreateSuperAdmin(false);
       setCreateExpiry(0);
       await load();
     } catch (e) {
@@ -222,9 +236,14 @@ export default function ApiTokensPage() {
                       <td className="px-4 py-3">
                         {(row.scopes || []).map((s) => (
                           <span key={s} className="inline-block rounded-full border border-indigo-100 bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700 mr-1">
-                            {s === "read-only" ? t.scopeReadOnly : s}
+                            {s === "read-only" ? t.scopeReadOnly : s === "read-write" ? t.scopeReadWrite : s}
                           </span>
                         ))}
+                        {row.is_super_admin && (
+                          <span className="inline-block rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700 mr-1">
+                            {t.levelSuperAdmin}
+                          </span>
+                        )}
                       </td>
                       <td className="px-4 py-3">
                         <span className={`inline-block rounded-full border px-2 py-0.5 text-xs font-medium ${st.cls}`}>{st.label}</span>
@@ -278,15 +297,46 @@ export default function ApiTokensPage() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">{t.scopes}</label>
-                <div className="flex items-center gap-2">
-                  <span className="inline-block rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-xs text-indigo-700 font-medium">
-                    {t.scopeReadOnly}
-                  </span>
-                  <span className="text-xs text-slate-400">
-                    {lang === "zh" ? "（默认，不可更改）" : "(default, cannot be changed)"}
-                  </span>
+                <div className="flex items-center gap-3">
+                  <label className="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="scope"
+                      value="read-only"
+                      checked={createScope === "read-only"}
+                      onChange={() => setCreateScope("read-only")}
+                      className="accent-indigo-600"
+                    />
+                    <span className="text-sm text-slate-700">{t.scopeReadOnly}</span>
+                  </label>
+                  <label className="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="scope"
+                      value="read-write"
+                      checked={createScope === "read-write"}
+                      onChange={() => setCreateScope("read-write")}
+                      className="accent-indigo-600"
+                    />
+                    <span className="text-sm text-slate-700">{t.scopeReadWrite}</span>
+                  </label>
                 </div>
               </div>
+
+              {isSuperAdmin && (
+                <div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={createSuperAdmin}
+                      onChange={(e) => setCreateSuperAdmin(e.target.checked)}
+                      className="h-4 w-4 rounded border-slate-300 accent-indigo-600"
+                    />
+                    <span className="text-sm font-medium text-slate-700">{t.superAdminToken}</span>
+                  </label>
+                  <p className="mt-1 ml-6 text-xs text-slate-500">{t.superAdminTokenHint}</p>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">{t.expiresIn}</label>

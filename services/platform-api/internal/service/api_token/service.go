@@ -21,10 +21,11 @@ const tokenRawBytes = 32 // 256-bit random token
 const tokenPrefixTag = "enx_"
 
 type ApiTokenPrincipal struct {
-	TokenID  string
-	UserID   string
-	TenantID string
-	Scopes   []string
+	TokenID      string
+	UserID       string
+	TenantID     string
+	Scopes       []string
+	IsSuperAdmin bool
 }
 
 type Service struct {
@@ -52,26 +53,26 @@ func generateToken() (plain, prefix string, err error) {
 }
 
 // Create generates a new API token. The plaintext is returned only in this response.
-// Tokens always include "read-only" scope to restrict third-party access to queries.
-func (s *Service) Create(ctx context.Context, userID, tenantID string, req dto.CreateApiTokenRequest) (*dto.CreateApiTokenResponse, error) {
+func (s *Service) Create(ctx context.Context, userID, tenantID string, isSuperAdmin bool, req dto.CreateApiTokenRequest) (*dto.CreateApiTokenResponse, error) {
 	plain, prefix, err := generateToken()
 	if err != nil {
 		return nil, domain.ErrInternalError
 	}
 
-	scopes := ensureReadOnly(req.Scopes)
+	scopes := normalizeScopes(req.Scopes)
 
 	now := time.Now()
 	tok := &domain.ApiToken{
-		ID:          ulid.Make().String(),
-		UserID:      userID,
-		TenantID:    tenantID,
-		Name:        req.Name,
-		TokenHash:   hashToken(plain),
-		TokenPrefix: prefix,
-		Scopes:      domain.StringList(scopes),
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		ID:           ulid.Make().String(),
+		UserID:       userID,
+		TenantID:     tenantID,
+		Name:         req.Name,
+		TokenHash:    hashToken(plain),
+		TokenPrefix:  prefix,
+		Scopes:       domain.StringList(scopes),
+		IsSuperAdmin: isSuperAdmin,
+		CreatedAt:    now,
+		UpdatedAt:    now,
 	}
 
 	if req.ExpiresIn != nil && *req.ExpiresIn > 0 {
@@ -83,23 +84,25 @@ func (s *Service) Create(ctx context.Context, userID, tenantID string, req dto.C
 		return nil, domain.ErrInternalError
 	}
 	return &dto.CreateApiTokenResponse{
-		ID:          tok.ID,
-		Name:        tok.Name,
-		Token:       plain,
-		TokenPrefix: tok.TokenPrefix,
-		Scopes:      scopes,
-		ExpiresAt:   tok.ExpiresAt,
-		CreatedAt:   tok.CreatedAt,
+		ID:           tok.ID,
+		Name:         tok.Name,
+		Token:        plain,
+		TokenPrefix:  tok.TokenPrefix,
+		Scopes:       scopes,
+		IsSuperAdmin: tok.IsSuperAdmin,
+		ExpiresAt:    tok.ExpiresAt,
+		CreatedAt:    tok.CreatedAt,
 	}, nil
 }
 
-func ensureReadOnly(scopes []string) []string {
+// normalizeScopes ensures scopes contain exactly one of "read-only" or "read-write".
+func normalizeScopes(scopes []string) []string {
 	for _, s := range scopes {
-		if s == "read-only" {
-			return scopes
+		if s == "read-write" {
+			return []string{"read-write"}
 		}
 	}
-	return append([]string{"read-only"}, scopes...)
+	return []string{"read-only"}
 }
 
 // Validate checks a raw bearer token against stored hashes, expiry, and revocation.
@@ -132,10 +135,11 @@ func (s *Service) Validate(ctx context.Context, rawToken string) (*ApiTokenPrinc
 	_ = s.repo.UpdateApiToken(ctx, tok)
 
 	return &ApiTokenPrincipal{
-		TokenID:  tok.ID,
-		UserID:   tok.UserID,
-		TenantID: tok.TenantID,
-		Scopes:   []string(tok.Scopes),
+		TokenID:      tok.ID,
+		UserID:       tok.UserID,
+		TenantID:     tok.TenantID,
+		Scopes:       []string(tok.Scopes),
+		IsSuperAdmin: tok.IsSuperAdmin,
 	}, nil
 }
 
@@ -148,14 +152,15 @@ func (s *Service) List(ctx context.Context, tenantID string, page, pageSize int)
 	out := make([]*dto.ApiTokenListItem, 0, len(rows))
 	for _, t := range rows {
 		out = append(out, &dto.ApiTokenListItem{
-			ID:          t.ID,
-			Name:        t.Name,
-			TokenPrefix: t.TokenPrefix,
-			Scopes:      []string(t.Scopes),
-			ExpiresAt:   t.ExpiresAt,
-			LastUsedAt:  t.LastUsedAt,
-			RevokedAt:   t.RevokedAt,
-			CreatedAt:   t.CreatedAt,
+			ID:           t.ID,
+			Name:         t.Name,
+			TokenPrefix:  t.TokenPrefix,
+			Scopes:       []string(t.Scopes),
+			IsSuperAdmin: t.IsSuperAdmin,
+			ExpiresAt:    t.ExpiresAt,
+			LastUsedAt:   t.LastUsedAt,
+			RevokedAt:    t.RevokedAt,
+			CreatedAt:    t.CreatedAt,
 		})
 	}
 	return out, total, nil

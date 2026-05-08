@@ -40,18 +40,19 @@ func (s *StringList) Scan(src interface{}) error {
 // access (e.g. MCP servers, CI pipelines). The plaintext is only revealed once
 // at creation; only the SHA-256 hash is persisted.
 type ApiToken struct {
-	ID          string     `json:"id"           gorm:"primaryKey;size:26"`
-	UserID      string     `json:"user_id"      gorm:"size:26;not null;index"`
-	TenantID    string     `json:"tenant_id"    gorm:"size:26;not null;index"`
-	Name        string     `json:"name"         gorm:"size:255;not null"`
-	TokenHash   string     `json:"-"            gorm:"size:64;not null;uniqueIndex"`
-	TokenPrefix string     `json:"token_prefix" gorm:"size:12;not null;index"`
-	Scopes      StringList `json:"scopes"       gorm:"type:json"`
-	ExpiresAt   *time.Time `json:"expires_at"   gorm:"index"`
-	LastUsedAt  *time.Time `json:"last_used_at"`
-	RevokedAt   *time.Time `json:"revoked_at"`
-	CreatedAt   time.Time  `json:"created_at"`
-	UpdatedAt   time.Time  `json:"updated_at"`
+	ID           string     `json:"id"             gorm:"primaryKey;size:26"`
+	UserID       string     `json:"user_id"        gorm:"size:26;not null;index"`
+	TenantID     string     `json:"tenant_id"      gorm:"size:26;not null;index"`
+	Name         string     `json:"name"           gorm:"size:255;not null"`
+	TokenHash    string     `json:"-"              gorm:"size:64;not null;uniqueIndex"`
+	TokenPrefix  string     `json:"token_prefix"   gorm:"size:12;not null;index"`
+	Scopes       StringList `json:"scopes"         gorm:"type:json"`
+	IsSuperAdmin bool       `json:"is_super_admin" gorm:"not null;default:false"`
+	ExpiresAt    *time.Time `json:"expires_at"     gorm:"index"`
+	LastUsedAt   *time.Time `json:"last_used_at"`
+	RevokedAt    *time.Time `json:"revoked_at"`
+	CreatedAt    time.Time  `json:"created_at"`
+	UpdatedAt    time.Time  `json:"updated_at"`
 }
 
 func (ApiToken) TableName() string { return "api_tokens" }

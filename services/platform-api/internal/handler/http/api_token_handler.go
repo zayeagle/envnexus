@@ -64,12 +64,27 @@ func (h *ApiTokenHandler) Create(c *gin.Context) {
 	}
 	uid, _ := userID.(string)
 
+	var super bool
+	if v, ok2 := c.Get("platform_super_admin"); ok2 {
+		if b, ok3 := v.(bool); ok3 {
+			super = b
+		}
+	}
+
 	var req dto.CreateApiTokenRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		mw.RespondValidationError(c, err.Error())
 		return
 	}
-	out, err := h.svc.Create(c.Request.Context(), uid, tenantID, req)
+
+	wantSuper := req.IsSuperAdmin
+	if wantSuper && !super {
+		mw.RespondErrorCode(c, http.StatusForbidden, "forbidden",
+			"only platform super admins can create super admin tokens")
+		return
+	}
+
+	out, err := h.svc.Create(c.Request.Context(), uid, tenantID, wantSuper, req)
 	if err != nil {
 		mw.RespondError(c, err)
 		return
