@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	device_binding "github.com/zy-eagle/envnexus/services/platform-api/internal/service/device_binding"
-	package_svc "github.com/zy-eagle/envnexus/services/platform-api/internal/service/package"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	device_binding "github.com/zayeagle/envnexus/services/platform-api/internal/service/device_binding"
+	package_svc "github.com/zayeagle/envnexus/services/platform-api/internal/service/package"
 )
 
 type PackageHandler struct {

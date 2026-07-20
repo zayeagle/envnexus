@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
 )
 
 type DeviceHealth struct {

@@ -1,4 +1,4 @@
-module github.com/zy-eagle/envnexus/services/job-runner
+module github.com/zayeagle/envnexus/services/job-runner
 
 go 1.25.0
 

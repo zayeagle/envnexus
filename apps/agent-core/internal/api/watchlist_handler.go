@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/governance/watchlist"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/governance/watchlist"
 )
 
 // RegisterWatchlistRoutes adds watchlist API endpoints to the router group.

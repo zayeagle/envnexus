@@ -9,10 +9,10 @@ keywords:
   - governance
   - agent
   - llm
-home: https://github.com/zy-eagle/envnexus
+home: https://github.com/zayeagle/envnexus
 maintainers:
-  - name: zy-eagle
-    url: https://github.com/zy-eagle
+  - name: zayeagle
+    url: https://github.com/zayeagle
 dependencies:
   - name: mysql
     version: "~9.23"

@@ -3,7 +3,7 @@ package dto
 import (
 	"time"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
 )
 
 // MarketplaceItemResponse is a published marketplace item for listing and subscription flows.

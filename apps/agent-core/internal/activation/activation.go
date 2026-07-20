@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/hwinfo"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/hwinfo"
 )
 
 type Status struct {

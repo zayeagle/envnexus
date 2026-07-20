@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/tools"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/tools"
 )
 
 type mockTool struct {

@@ -8,6 +8,35 @@
 
 ---
 
+## 产品截图
+
+<p align="center">
+  <img src="docs/images/console-dashboard.png" alt="控制台仪表盘" width="720" />
+</p>
+<p align="center"><em>控制台仪表盘 — 设备、会话与最近活动一览</em></p>
+
+<p align="center">
+  <img src="docs/images/console-command-tasks.png" alt="自然语言命令任务" width="720" />
+</p>
+<p align="center"><em>命令任务 — 自然语言意图翻译为工具优先的结构化执行计划</em></p>
+
+<p align="center">
+  <img src="docs/images/console-approvals.png" alt="分层审批" width="720" />
+</p>
+<p align="center"><em>待审批 — 命令与文件访问的 L0–L3 风险闸门</em></p>
+
+<p align="center">
+  <img src="docs/images/console-devices.png" alt="设备健康" width="720" />
+</p>
+<p align="center"><em>设备健康 — 在线/离线舰队状态与 Agent 版本</em></p>
+
+<p align="center">
+  <img src="docs/images/agent-desktop-chat.png" alt="Agent 桌面端诊断" width="720" />
+</p>
+<p align="center"><em>Agent 桌面端 — 对话式诊断、计划式修复与计划审批</em></p>
+
+---
+
 ## 解决什么问题
 
 在现代企业 IT 管理中，终端执行面临着巨大的安全与效率矛盾：普通业务人员不会敲命令，遇到问题只能等 IT 远控；而 IT 运维在排障或批量管理时敲命令，又容易出错、权限过大且缺乏结构化审计。
@@ -92,7 +121,7 @@ EnvNexus 提供的是一套更安全、智能的终端执行闭环：
 **前置条件**：Docker 20.10+、Docker Compose v2
 
 ```bash
-git clone https://github.com/zy-eagle/envnexus.git
+git clone https://github.com/zayeagle/envnexus.git
 cd envnexus
 ./deploy.sh start
 ```

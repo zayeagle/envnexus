@@ -7,9 +7,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
 )
 
 type mockUserRepo struct {

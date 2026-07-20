@@ -5,7 +5,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
 )
 
 type memGroupRepo struct {

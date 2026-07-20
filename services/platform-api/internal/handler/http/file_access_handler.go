@@ -7,9 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/file_access"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/file_access"
 )
 
 type FileAccessHandler struct {

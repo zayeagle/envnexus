@@ -15,8 +15,8 @@ import (
 	"github.com/oklog/ulid/v2"
 	"gorm.io/gorm"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
 )
 
 // RFC 8628 style timings.

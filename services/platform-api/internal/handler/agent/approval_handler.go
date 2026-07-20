@@ -6,10 +6,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/session"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/session"
 )
 
 type ApprovalHandler struct {

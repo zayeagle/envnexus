@@ -16,11 +16,11 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/audit"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/diagnosis"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/policy"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/store"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/tools"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/audit"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/diagnosis"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/policy"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/store"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/tools"
 )
 
 const (

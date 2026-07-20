@@ -6,9 +6,9 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/oklog/ulid/v2"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
 )
 
 func isDuplicateEntry(err error) bool {

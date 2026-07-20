@@ -1,13 +1,13 @@
 {
   "name": "envnexus-sync",
   "displayName": "EnvNexus Sync",
-  "publisher": "zy-eagle",
+  "publisher": "zayeagle",
   "version": "0.1.0",
   "description": "Sync with EnvNexus from Visual Studio Code.",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zy-eagle/envnexus.git"
+    "url": "https://github.com/zayeagle/envnexus.git"
   },
   "engines": {
     "vscode": "^1.80.0"

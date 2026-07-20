@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
-	"github.com/zy-eagle/envnexus/services/platform-api/migrations"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/migrations"
 )
 
 func main() {

@@ -8,5 +8,5 @@ globs: []
 当用户输入类似“在 github 中打开我的 envnexus 项目”、“打开 envnexus”等指令时，不需要尝试模拟浏览器点击，请直接使用 Shell 工具执行以下命令，在用户的默认浏览器（或 Chrome）中打开该项目的 GitHub 主页：
 
 ```bash
-start chrome https://github.com/zy-eagle/envnexus
+start chrome https://github.com/zayeagle/envnexus
 ```

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
 )
 
 type Router struct {

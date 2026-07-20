@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zy-eagle/envnexus/libs/shared/pkg/agentprompt"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/libs/shared/pkg/agentprompt"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
 )
 
 // nlGenHTTPTimeout is the client timeout for upstream LLM HTTP calls.

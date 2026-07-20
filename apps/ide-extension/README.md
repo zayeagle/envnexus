@@ -1,6 +1,6 @@
 # EnvNexus Sync (VS Code extension)
 
-Sync MCP configuration and related assets from [EnvNexus](https://github.com/zy-eagle/envnexus) into your workspace (for example under `.cursor/`).
+Sync MCP configuration and related assets from [EnvNexus](https://github.com/zayeagle/envnexus) into your workspace (for example under `.cursor/`).
 
 ## Requirements
 
@@ -42,4 +42,4 @@ This produces a file named `envnexus-sync-<version>.vsix` in the current directo
 
 ## Repository
 
-Monorepo: <https://github.com/zy-eagle/envnexus>
+Monorepo: <https://github.com/zayeagle/envnexus>

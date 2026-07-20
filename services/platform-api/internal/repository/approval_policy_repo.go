@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
 )
 
 type ApprovalPolicyRepository interface {

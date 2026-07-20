@@ -14,9 +14,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/bootstrap"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/config"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/setup"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/bootstrap"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/config"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/setup"
 )
 
 var version = "0.3.0"

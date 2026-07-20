@@ -11,8 +11,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
-	"github.com/zy-eagle/envnexus/services/job-runner/internal/infrastructure"
-	"github.com/zy-eagle/envnexus/services/job-runner/internal/worker"
+	"github.com/zayeagle/envnexus/services/job-runner/internal/infrastructure"
+	"github.com/zayeagle/envnexus/services/job-runner/internal/worker"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

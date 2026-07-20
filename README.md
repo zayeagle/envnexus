@@ -8,6 +8,35 @@ Users simply describe their intent in natural language, or administrators issue 
 
 ---
 
+## Product Screenshots
+
+<p align="center">
+  <img src="docs/images/console-dashboard.png" alt="Console Dashboard" width="720" />
+</p>
+<p align="center"><em>Console Dashboard — devices, sessions, and recent activity at a glance</em></p>
+
+<p align="center">
+  <img src="docs/images/console-command-tasks.png" alt="Natural Language Command Tasks" width="720" />
+</p>
+<p align="center"><em>Command Tasks — natural language intent translated into a structured, tool-first execution plan</em></p>
+
+<p align="center">
+  <img src="docs/images/console-approvals.png" alt="Layered Approvals" width="720" />
+</p>
+<p align="center"><em>Pending Approvals — L0–L3 risk gates for commands and file access</em></p>
+
+<p align="center">
+  <img src="docs/images/console-devices.png" alt="Device Health" width="720" />
+</p>
+<p align="center"><em>Device Health — online/offline fleet status and agent versions</em></p>
+
+<p align="center">
+  <img src="docs/images/agent-desktop-chat.png" alt="Agent Desktop Diagnosis" width="720" />
+</p>
+<p align="center"><em>Agent Desktop — chat-based diagnosis with planned remediation and plan approval</em></p>
+
+---
+
 ## The Problem It Solves
 
 In modern enterprise IT management, endpoint execution faces a huge contradiction between safety and efficiency: ordinary business users cannot type commands and must wait for IT remote control when issues arise; meanwhile, IT operations typing commands for troubleshooting or batch management are prone to errors, hold excessive permissions, and lack structured auditing.
@@ -92,7 +121,7 @@ EnvNexus provides a safer, more intelligent closed-loop for endpoint execution:
 **Prerequisites**: Docker 20.10+, Docker Compose v2
 
 ```bash
-git clone https://github.com/zy-eagle/envnexus.git
+git clone https://github.com/zayeagle/envnexus.git
 cd envnexus
 ./deploy.sh start
 ```

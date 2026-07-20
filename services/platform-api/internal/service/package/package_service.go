@@ -12,11 +12,11 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/oklog/ulid/v2"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/infrastructure"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
-	device_binding "github.com/zy-eagle/envnexus/services/platform-api/internal/service/device_binding"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/infrastructure"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
+	device_binding "github.com/zayeagle/envnexus/services/platform-api/internal/service/device_binding"
 )
 
 type Service struct {

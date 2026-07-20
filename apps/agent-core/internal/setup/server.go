@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/config"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/config"
 )
 
 // RunGUI starts a local HTTP server serving the setup wizard UI and opens it in the default browser.

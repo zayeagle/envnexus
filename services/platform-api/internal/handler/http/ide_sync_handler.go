@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/marketplace"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/marketplace"
 )
 
 // IdeSyncHandler serves IDE clients authenticated with IDE access tokens.

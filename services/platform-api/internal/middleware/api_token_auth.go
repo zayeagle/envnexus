@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/api_token"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/api_token"
 )
 
 const (

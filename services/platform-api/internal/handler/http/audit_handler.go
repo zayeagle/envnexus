@@ -9,10 +9,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/audit"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/audit"
 )
 
 type AuditHandler struct {

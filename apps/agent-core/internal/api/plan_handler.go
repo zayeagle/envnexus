@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/remediation"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/remediation"
 )
 
 // PlanStore holds active remediation plans for the local API.

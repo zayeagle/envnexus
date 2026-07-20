@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/llm/router"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/llm/router"
 )
 
 type DeepSeekProvider struct {

@@ -1,9 +1,9 @@
-module github.com/zy-eagle/envnexus/apps/agent-core
+module github.com/zayeagle/envnexus/apps/agent-core
 
 go 1.25.0
 
 require (
-	github.com/zy-eagle/envnexus/libs/shared v0.0.0
+	github.com/zayeagle/envnexus/libs/shared v0.0.0
 	github.com/gin-gonic/gin v1.12.0
 	github.com/gorilla/websocket v1.5.3
 	modernc.org/sqlite v1.47.0
@@ -48,4 +48,4 @@ require (
 	modernc.org/memory v1.11.0 // indirect
 )
 
-replace github.com/zy-eagle/envnexus/libs/shared => ../../libs/shared
+replace github.com/zayeagle/envnexus/libs/shared => ../../libs/shared

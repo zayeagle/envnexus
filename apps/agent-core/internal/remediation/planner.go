@@ -9,9 +9,9 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/diagnosis"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/llm/router"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/tools"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/diagnosis"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/llm/router"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/tools"
 )
 
 type Planner struct {

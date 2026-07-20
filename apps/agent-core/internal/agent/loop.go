@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/diagnosis"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/llm/router"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/remediation"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/tools"
-	"github.com/zy-eagle/envnexus/libs/shared/pkg/agentprompt"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/diagnosis"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/llm/router"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/remediation"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/tools"
+	"github.com/zayeagle/envnexus/libs/shared/pkg/agentprompt"
 )
 
 const (

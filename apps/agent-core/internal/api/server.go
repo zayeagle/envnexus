@@ -13,17 +13,17 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/activation"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/agent"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/device"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/diagnosis"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/governance"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/llm/router"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/policy"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/store"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/tools"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/remediation"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/updater"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/activation"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/agent"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/device"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/diagnosis"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/governance"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/llm/router"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/policy"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/store"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/tools"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/remediation"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/updater"
 )
 
 type LocalServer struct {

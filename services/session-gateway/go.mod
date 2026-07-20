@@ -1,4 +1,4 @@
-module github.com/zy-eagle/envnexus/services/session-gateway
+module github.com/zayeagle/envnexus/services/session-gateway
 
 go 1.25.0
 

@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
 )
 
 // Handler handles Feishu event callbacks, interactive card actions,

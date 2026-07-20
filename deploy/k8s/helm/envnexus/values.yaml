@@ -6,7 +6,7 @@ global:
 ## -- Image ────────────────────────────────────────────────────────────────────
 image:
   registry: ghcr.io
-  repository: zy-eagle/envnexus
+  repository: zayeagle/envnexus
   tag: "0.2.0"
   pullPolicy: IfNotPresent
 

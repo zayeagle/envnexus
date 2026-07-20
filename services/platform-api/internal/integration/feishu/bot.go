@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/session"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/session"
 )
 
 // BotCommand represents a parsed command from a Feishu chat message.

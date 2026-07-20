@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/services/session-gateway/internal/handler/ws"
+	"github.com/zayeagle/envnexus/services/session-gateway/internal/handler/ws"
 )
 
 // Injected at link time, e.g. -X main.buildRevision=$(git rev-parse HEAD)

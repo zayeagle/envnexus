@@ -9,13 +9,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/infrastructure"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/device"
-	device_binding "github.com/zy-eagle/envnexus/services/platform-api/internal/service/device_binding"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/infrastructure"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/device"
+	device_binding "github.com/zayeagle/envnexus/services/platform-api/internal/service/device_binding"
 )
 
 // LifecycleHandler handles agent heartbeat and config pull.

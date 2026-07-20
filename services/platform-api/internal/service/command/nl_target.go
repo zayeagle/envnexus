@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/zy-eagle/envnexus/libs/shared/pkg/agentprompt"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/domain"
+	"github.com/zayeagle/envnexus/libs/shared/pkg/agentprompt"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/domain"
 )
 
 // NLTargetFromDevice builds the NL command generation snapshot from enrollment + last heartbeat metadata.

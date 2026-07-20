@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/rbac"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/user"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/rbac"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/user"
 )
 
 type UserHandler struct {

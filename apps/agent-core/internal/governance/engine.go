@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/governance/watchlist"
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/store"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/governance/watchlist"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/store"
 )
 
 type BaselineData struct {

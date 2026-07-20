@@ -799,7 +799,7 @@ EnvNexus 采用**双版本**机制：
 EnvNexus 提供智能部署脚本，自动完成环境配置、变更检测、服务构建和启动：
 
 ```bash
-git clone https://github.com/zy-eagle/envnexus.git
+git clone https://github.com/zayeagle/envnexus.git
 cd envnexus
 ./deploy.sh start
 ```

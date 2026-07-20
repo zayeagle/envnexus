@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/governance"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/governance"
 )
 
 type GovernanceRuleHandler struct {

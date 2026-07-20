@@ -1215,7 +1215,7 @@ function buildAppMenu(): void {
       submenu: [
         {
           label: menuText('homepage'),
-          click: () => { shell.openExternal('https://github.com/zy-eagle/envnexus'); },
+          click: () => { shell.openExternal('https://github.com/zayeagle/envnexus'); },
         },
         { type: 'separator' },
         {
@@ -1830,7 +1830,7 @@ function checkGitHubRelease(): Promise<{ version: string; downloadUrl: string } 
   return new Promise((resolve) => {
     const options = {
       hostname: 'api.github.com',
-      path: '/repos/zy-eagle/envnexus/releases/latest',
+      path: '/repos/zayeagle/envnexus/releases/latest',
       headers: { 'User-Agent': `EnvNexus-Agent/${app.getVersion()}` },
     };
 

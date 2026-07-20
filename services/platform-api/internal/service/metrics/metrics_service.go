@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/repository"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/repository"
 )
 
 // MetricType enumerates the supported metric counters.

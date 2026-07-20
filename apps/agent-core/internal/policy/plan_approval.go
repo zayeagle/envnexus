@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/zy-eagle/envnexus/apps/agent-core/internal/remediation"
+	"github.com/zayeagle/envnexus/apps/agent-core/internal/remediation"
 )
 
 // PlanApprovalRequest represents a pending plan-level approval.

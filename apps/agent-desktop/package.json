@@ -5,7 +5,7 @@
   "main": "dist/main/main.js",
   "author": "EnvNexus <team@envnexus.io>",
   "description": "EnvNexus Agent Desktop — secure local diagnosis and guided repair",
-  "homepage": "https://github.com/zy-eagle/envnexus",
+  "homepage": "https://github.com/zayeagle/envnexus",
   "scripts": {
     "build": "tsc",
     "start": "electron .",
@@ -112,7 +112,7 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "zy-eagle",
+      "owner": "zayeagle",
       "repo": "envnexus"
     }
   }

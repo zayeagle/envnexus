@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/dto"
-	mw "github.com/zy-eagle/envnexus/services/platform-api/internal/middleware"
-	"github.com/zy-eagle/envnexus/services/platform-api/internal/service/agent_profile"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/dto"
+	mw "github.com/zayeagle/envnexus/services/platform-api/internal/middleware"
+	"github.com/zayeagle/envnexus/services/platform-api/internal/service/agent_profile"
 )
 
 type AgentProfileHandler struct {

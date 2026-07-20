@@ -1,6 +1,6 @@
 {
   "interactive_mode": true,
   "ask_mode_after_od": true,
-  "update_source_url": "https://github.com/zy-eagle/omnidev-kit.git",
+  "update_source_url": "https://github.com/zayeagle/omnidev-kit.git",
   "branch_strategy": "main_only"
 }
